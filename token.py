@@ -1,5 +1,4 @@
 # Se van a importar varias cosas
-from calendar import c
 from enum import (
     auto, # Permite que automaticamente se asigne un valor al enum
     Enum, # Se trae clase Enum
@@ -7,7 +6,7 @@ from enum import (
 )
 from typing import NamedTuple 
 
-@unique
+@unique # Se le añade el decorador unique pora saber que los tokens son unicos, un decorador recibe como parametro una funcion, le añade cosas, la ejecuta y retorna a esta misma función pero ya modificada, por eso se dice que retorna una función diferente
 class TokenType(Enum):
     # Es buena practica ponerlos en orden alfabetico
     ASSIGN = auto()
