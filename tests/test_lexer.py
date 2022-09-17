@@ -3,7 +3,7 @@ from unittest import TestCase
 # Se procede a definir lo que falta despues del testing
 from typing import List
 
-from lpp.token import(
+from lpp.token import (
     Token,
     TokenType,
 )
