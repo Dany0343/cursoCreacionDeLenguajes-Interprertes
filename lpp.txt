@@ -1,0 +1,6 @@
+variable num1 = 5;
+variable num2 = 10;
+
+variable suma = procedimiento(x, y)  {x + y};
+
+variable resultado = suma(num1, num2)

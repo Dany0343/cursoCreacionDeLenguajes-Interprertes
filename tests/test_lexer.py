@@ -1,4 +1,4 @@
-from unittest import TestCase
+from unittest import TestCase # Clase para hacer testing
 
 # Se procede a definir lo que falta despues del testing
 from typing import List
@@ -17,7 +17,7 @@ class LexerTest(TestCase): # Se extiende de TestCase para hacer testing, es una 
         lexer: Lexer = Lexer(source)
         tokens: List[Token] = [] # No existe por ahora pero los tests nos van guiando
         for i in range(len(source)):
-            tokens.append(lexer.next_token)
+            tokens.append(lexer.next_token())
         
         expected_tokens: List[Token] = [
             Token(TokenType.ILLEGAL, '¡'),
