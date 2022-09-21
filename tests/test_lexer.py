@@ -12,6 +12,7 @@ from lpp.lexer import Lexer
 
 class LexerTest(TestCase): # Se extiende de TestCase para hacer testing, es una clase para hacer test
     # Cada uno de los tests se harán dentro de una función
+
     def testIllegal(self) -> None:  # Primer test es probar que el lexer regrese los tokens ilegales
         source: str = '¡¿@'
         lexer: Lexer = Lexer(source)
@@ -27,4 +28,18 @@ class LexerTest(TestCase): # Se extiende de TestCase para hacer testing, es una 
 
         # Ultimo paso del test, todos los test siguen esta estructura
         # Assemble, act, assertion
+        self.assertEquals(tokens, expected_tokens)
+
+
+    def test_one_character_operator(self) -> None:
+        source: str = '=+'
+        lexer: Lexer = Lexer(source) # Inicializamos el Lexer pasandole como argumento el source
+        tokens: List[Token] = [] # Se genera la lista de tokens que el lexer debería de devolver
+        for i in range(len(source)): # Se hace un loop a lo largo de Lexer y en cada loop se llama a next_token para ir populando o añadiendo cada Token a la lista de tokens
+            tokens.append(lexer.next_token())
+
+        expected_tokens: List[Token] = [
+            Token(TokenType.ASSIGN, '='),
+            Token(TokenType.PLUS, '+'),
+        ]
         self.assertEquals(tokens, expected_tokens)

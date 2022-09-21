@@ -1,11 +1,14 @@
+from re import match
 from lpp.token import (
     Token,
     TokenType,
 )
+
+
 class Lexer:
     def __init__(self, source: str) -> None: # Constructor
 
-        # Se inicializa una variable privada
+        # Se inicializan variables privadas
         self._source: str = source
         self._character: str = ''
         self._read_position: int = 0
@@ -15,7 +18,22 @@ class Lexer:
         self._read_character()
 
     def next_token(self) -> Token:
-        token = Token(TokenType.ILLEGAL, self._character)
+        # Se va a revisar con expresiones regulares
+        """
+        En Python las expresiones regulares empiezan con cadenas row
+        # Comience al principio de la cadena, encuentre un igual y que termine en esto, se quiere un igual desde el principio hasta el final
+        """
+        if match(r'^=$', self._character):
+            token = Token(TokenType.ASSIGN, self._character)
+        elif match(r'^\+$', self._character): 
+            token = Token(TokenType.PLUS, self._character)
+        else: # Si no reconoce entonces dirá que es un Token ilegal
+            token = Token(TokenType.ILLEGAL, self._character)
+        """
+        Se tiene que escapar especificamente el caracter de suma porque suma significa algo especifico en las expresiones regulares, significa que haga match por lo menos una o mas veces pero aqui no interesa la funcionalidad sino especificamente el caracter, se escapa con la diagonal
+        """
+        # Escapar: hacer que el caractér sea tomado cómo texto plano en lugar de su significado por defecto en la expreción regular.
+
         
         # Se necesita correrlo despues de que se genere el token y antes de regresarlo
         self._read_character()
