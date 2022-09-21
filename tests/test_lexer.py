@@ -31,7 +31,7 @@ class LexerTest(TestCase): # Se extiende de TestCase para hacer testing, es una 
         self.assertEquals(tokens, expected_tokens)
 
 
-    def test_one_character_operator(self) -> None:
+    def test_one_character_operator(self) -> None: # Test para reconocer los operadores de un caracter
         source: str = '=+'
         lexer: Lexer = Lexer(source) # Inicializamos el Lexer pasandole como argumento el source
         tokens: List[Token] = [] # Se genera la lista de tokens que el lexer debería de devolver
@@ -43,3 +43,38 @@ class LexerTest(TestCase): # Se extiende de TestCase para hacer testing, es una 
             Token(TokenType.PLUS, '+'),
         ]
         self.assertEquals(tokens, expected_tokens)
+    
+    
+    def test_eof(self) -> None: # Test para revisar si ya se acabo el programa
+        source: str = '+'
+        lexer: Lexer = Lexer(source)
+
+        tokens: List[Token] = []
+        for i in range(len(source) + 1): # Se le suma + 1 para que nos regrese el token eof
+            tokens.append(lexer.next_token())
+        
+        expected_tokens: List[Token] = [
+            Token(TokenType.PLUS, '+'),
+            Token(TokenType.EOF, '')
+        ]
+        self.assertEquals(tokens, expected_tokens) # Se revisa que los tokens que aviente el lexer sean especificamente los tokens que tenemos en expected tokens
+    
+
+    # Challenge
+    def test_delimiters(self) -> None:
+        source = '(){},;'
+        lexer: Lexer = Lexer(source)
+
+        tokens: List[Token] = []
+        for i in range(len(source)):
+            tokens.append(lexer.next_token())
+
+        expected_tokens: List[Token] = [
+            Token(TokenType.LPAREN, '('),
+            Token(TokenType.RPAREN, ')'),
+            Token(TokenType.LBRACE, '{'),
+            Token(TokenType.RBRACE, '}'),
+            Token(TokenType.COMMA, ','),
+            Token(TokenType.SEMICOLON, ';'),
+        ]
+        self.assertEquals(tokens, expected_tokens) # Se revisa que los tokens que aviente el lexer sean especificamente los tokens que tenemos en expected tokens
