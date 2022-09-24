@@ -136,11 +136,11 @@ class LexerTest(TestCase): # Se extiende de TestCase para hacer testing, es una 
 
     # Challenge 2
     def test_function_call(self) -> None:
-        source: str = 'variable resultado = suma(dos, tres)'
+        source: str = 'variable resultado = suma(dos, tres);'
         lexer: Lexer = Lexer(source)
         
         tokens: List[Token] = []
-        for i in range(9):
+        for i in range(10):
             tokens.append(lexer.next_token())
         
         expected_tokens: List[Token] = [
@@ -153,6 +153,8 @@ class LexerTest(TestCase): # Se extiende de TestCase para hacer testing, es una 
             Token(TokenType.COMMA, ','),
             Token(TokenType.IDENT, 'tres'),
             Token(TokenType.RPAREN, ')'),
+            Token(TokenType.SEMICOLON, ';'),
+
         ]
 
         self.assertEquals(tokens, expected_tokens)
