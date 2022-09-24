@@ -1,5 +1,4 @@
 # Se van a importar varias cosas
-from ast import keyword
 from enum import (
     auto, # Permite que automaticamente se asigne un valor al enum
     Enum, # Se trae clase Enum

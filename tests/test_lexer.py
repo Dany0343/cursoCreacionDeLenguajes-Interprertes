@@ -2,7 +2,6 @@ from unittest import TestCase # Clase para hacer testing
 
 # Se procede a definir lo que falta despues del testing
 from typing import List
-from lpp import token
 
 from lpp.token import (
     Token,
@@ -160,39 +159,39 @@ class LexerTest(TestCase): # Se extiende de TestCase para hacer testing, es una 
         self.assertEquals(tokens, expected_tokens)   
 
 
-        def test_control_statement(self): # Tokenizacion de if
-            source: str = '''
-                si (5 < 10) {
-                    regresa verdadero;
-                } si_no {
-                    regresa falso;
-                }
-            '''
-            lexer: Lexer = Lexer(source)
+    def test_control_statement(self): # Tokenizacion de if
+        source: str = '''
+            si (5 < 10) {
+                regresa verdadero;
+            } si_no {
+                regresa falso;
+            }
+        '''
+        lexer: Lexer = Lexer(source)
 
-            tokens: List[Token] = []
-            for i in range(17): # 17 veces ya que hay 17 tokens
-                tokens.append(lexer.next_token())
+        tokens: List[Token] = []
+        for i in range(17): # 17 veces ya que hay 17 tokens
+            tokens.append(lexer.next_token())
 
-            expected_tokens: List[Token] = [
-                Token(TokenType.IF , 'si'),
-                Token(TokenType.LPAREN , '('),
-                Token(TokenType.INT , '5'),
-                Token(TokenType.LT , '<'),
-                Token(TokenType.INT , '10'),
-                Token(TokenType.RPAREN , ')'),
-                Token(TokenType.LBRACE , '{'),
-                Token(TokenType.RETURN , 'regresa'),
-                Token(TokenType.TRUE , 'verdadero'),
-                Token(TokenType.SEMICOLON , ';'),
-                Token(TokenType.RBRACE , '}'),
-                Token(TokenType.ELSE , 'si_no'),
-                Token(TokenType.LBRACE , '{'),
-                Token(TokenType.RETURN , 'regresa'),
-                Token(TokenType.FALSE , 'falso'),
-                Token(TokenType.SEMICOLON , ';'),
-                Token(TokenType.RBRACE , '}'),
+        expected_tokens: List[Token] = [
+            Token(TokenType.IF , 'si'),
+            Token(TokenType.LPAREN , '('),
+            Token(TokenType.INT , '5'),
+            Token(TokenType.LT , '<'),
+            Token(TokenType.INT , '10'),
+            Token(TokenType.RPAREN , ')'),
+            Token(TokenType.LBRACE , '{'),
+            Token(TokenType.RETURN , 'regresa'),
+            Token(TokenType.TRUE , 'verdadero'),
+            Token(TokenType.SEMICOLON , ';'),
+            Token(TokenType.RBRACE , '}'),
+            Token(TokenType.ELSE , 'si_no'),
+            Token(TokenType.LBRACE , '{'),
+            Token(TokenType.RETURN , 'regresa'),
+            Token(TokenType.FALSE , 'falso'),
+            Token(TokenType.SEMICOLON , ';'),
+            Token(TokenType.RBRACE , '}'),
 
-            ]
-
-            self.assertEquals(tokens, expected_tokens)
+        ]
+        
+        self.assertEquals(tokens, expected_tokens)
