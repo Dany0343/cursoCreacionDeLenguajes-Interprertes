@@ -97,3 +97,62 @@ class LexerTest(TestCase): # Se extiende de TestCase para hacer testing, es una 
             Token(TokenType.SEMICOLON, ';'),
         ]
         self.assertEquals(tokens, expected_tokens)
+
+    
+    def test_function_declaration(self) -> None:
+        # Este source sin problemas puede ser leído desde un archivo pero para motivos practivos del test se pasa directamente
+        source: str = ''' 
+            variable suma = procedimiento(x, y){
+                x + y;
+            };
+        '''
+        lexer: Lexer = Lexer(source)
+
+        tokens: List[Token] = []
+        for i in range(16):
+            tokens.append(lexer.next_token())
+        
+        expected_tokens: List[Token] = [
+            Token(TokenType.LET, 'variable'),
+            Token(TokenType.IDENT, 'suma'),
+            Token(TokenType.ASSIGN, '='),
+            Token(TokenType.FUNCTION, 'procedimiento'),
+            Token(TokenType.LPAREN, '('),
+            Token(TokenType.IDENT, 'x'),
+            Token(TokenType.COMMA, ','),
+            Token(TokenType.IDENT, 'y'),
+            Token(TokenType.RPAREN, ')'),
+            Token(TokenType.LBRACE, '{'),
+            Token(TokenType.IDENT, 'x'),
+            Token(TokenType.PLUS, '+'),
+            Token(TokenType.IDENT, 'y'),
+            Token(TokenType.SEMICOLON, ';'),
+            Token(TokenType.RBRACE, '}'),
+            Token(TokenType.SEMICOLON, ';'),
+        ]
+        # Ya reconoce casi todo woooooow
+        self.assertEquals(tokens, expected_tokens) # Lo necesitamos si no el test no sirve de nada
+    
+
+    # Challenge 2
+    def test_function_call(self) -> None:
+        source: str = 'variable resultado = suma(dos, tres)'
+        lexer: Lexer = Lexer(source)
+        
+        tokens: List[Token] = []
+        for i in range(9):
+            tokens.append(lexer.next_token())
+        
+        expected_tokens: List[Token] = [
+            Token(TokenType.LET, 'variable'),
+            Token(TokenType.IDENT, 'resultado'),
+            Token(TokenType.ASSIGN, '='),
+            Token(TokenType.IDENT, 'suma'),
+            Token(TokenType.LPAREN, '('),
+            Token(TokenType.IDENT, 'dos'),
+            Token(TokenType.COMMA, ','),
+            Token(TokenType.IDENT, 'tres'),
+            Token(TokenType.RPAREN, ')'),
+        ]
+
+        self.assertEquals(tokens, expected_tokens)

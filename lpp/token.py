@@ -35,7 +35,7 @@ class Token(NamedTuple):
 
     # Dounder method string que permite saber cuando se imprime el token que hay dentro
     # __str__ permite controlar la funcion global o el built-in function str
-    # En python se pueden controlar que es lo que hace el simbolo de suma, len, comparaciones, todos con dunder methods
+    # En python se pueden controlar que es lo que hace el simbolo de suma, len, comparaciones, todos con dounder methods
     def __str__(self) -> str: # La flecha significa en el mundo de typing de python que esta función va a regresar un string
         return f'Type: {self.token_type}, Literal: {self.literal}'
 
@@ -43,7 +43,9 @@ class Token(NamedTuple):
 # Funcion para leer palabras más complejas y no solo operadores
 def lookup_token_type(literal: str) -> TokenType: # Recibe una literal y regresa un TokenType
     keywords: Dict[str, TokenType] = { # Guarda los keyword del lenguaje de llaves strings y valores TokenType
-        'variable': TokenType.LET
+        'procedimiento': TokenType.FUNCTION,
+        'variable': TokenType.LET,
+        
     } 
 
     return keywords.get(literal, TokenType.IDENT) # Aqui revisa si es una llave de la lista de palabras reservadas que tenemos en el diccionario o si no es un identificador (para nombrar algo y a libre eleccion)
