@@ -2,6 +2,7 @@ from unittest import TestCase # Clase para hacer testing
 
 # Se procede a definir lo que falta despues del testing
 from typing import List
+from lpp import token
 
 from lpp.token import (
     Token,
@@ -60,7 +61,7 @@ class LexerTest(TestCase): # Se extiende de TestCase para hacer testing, es una 
         self.assertEquals(tokens, expected_tokens) # Se revisa que los tokens que aviente el lexer sean especificamente los tokens que tenemos en expected tokens
     
 
-    # Challenge
+    # Challenge 1
     def test_delimiters(self) -> None:
         source = '(){},;'
         lexer: Lexer = Lexer(source)
@@ -78,3 +79,21 @@ class LexerTest(TestCase): # Se extiende de TestCase para hacer testing, es una 
             Token(TokenType.SEMICOLON, ';'),
         ]
         self.assertEquals(tokens, expected_tokens) # Se revisa que los tokens que aviente el lexer sean especificamente los tokens que tenemos en expected tokens
+
+    
+    def test_assignment(self) -> None:
+        source: str = 'variable cinco = 5;'
+        lexer: Lexer = Lexer(source)
+
+        tokens: List[Token] = []
+        for i in range(5): # Aqui son cinco debido a que queremos realizar 5 llamadas a next_token. Una por variable, otra por cinco, otra por igual, otra por el numero 5 y otra por el ;
+            tokens.append(lexer.next_token()) # Se manda a llamar al metodo next_token de la clase Lexer con el objeto lexer
+
+        expected_tokens: List[Token] = [
+            Token(TokenType.LET, 'variable'),
+            Token(TokenType.IDENT, 'cinco'),
+            Token(TokenType.ASSIGN, '='),
+            Token(TokenType.INT, '5'),
+            Token(TokenType.SEMICOLON, ';'),
+        ]
+        self.assertEquals(tokens, expected_tokens)
