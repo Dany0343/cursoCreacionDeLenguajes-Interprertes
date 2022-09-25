@@ -32,7 +32,7 @@ class LexerTest(TestCase): # Se extiende de TestCase para hacer testing, es una 
 
 
     def test_one_character_operator(self) -> None: # Test para reconocer los operadores de un caracter
-        source: str = '=+'
+        source: str = '=+/-*<>!'
         lexer: Lexer = Lexer(source) # Inicializamos el Lexer pasandole como argumento el source
         tokens: List[Token] = [] # Se genera la lista de tokens que el lexer debería de devolver
         for i in range(len(source)): # Se hace un loop a lo largo de Lexer y en cada loop se llama a next_token para ir populando o añadiendo cada Token a la lista de tokens
@@ -41,6 +41,12 @@ class LexerTest(TestCase): # Se extiende de TestCase para hacer testing, es una 
         expected_tokens: List[Token] = [
             Token(TokenType.ASSIGN, '='),
             Token(TokenType.PLUS, '+'),
+            Token(TokenType.DIV, '/'),
+            Token(TokenType.MINUS, '-'),
+            Token(TokenType.MULT, '*'),
+            Token(TokenType.LT, '<'),
+            Token(TokenType.GT, '>'),
+            Token(TokenType.EXC, '!'),
         ]
         self.assertEquals(tokens, expected_tokens)
     

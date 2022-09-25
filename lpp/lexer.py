@@ -30,13 +30,13 @@ class Lexer:
 
         if match(r'^=$', self._character):
             token = Token(TokenType.ASSIGN, self._character)
-        elif match(r'^\+$', self._character): 
+        elif match(r'^\+$', self._character):  # Se escapa por tener un significado especial en las expresiones regulares
             token = Token(TokenType.PLUS, self._character)
         elif match(r'^$', self._character):
             token = Token(TokenType.EOF, self._character)
-        elif match(r'^\($', self._character):
+        elif match(r'^\($', self._character): # Se escapa por tener un significado especial en las expresiones regulares
             token = Token(TokenType.LPAREN, self._character)
-        elif match(r'^\)$', self._character):
+        elif match(r'^\)$', self._character): # Se escapa por tener un significado especial en las expresiones regulares
             token = Token(TokenType.RPAREN, self._character)
         elif match(r'^{$', self._character):
             token = Token(TokenType.LBRACE, self._character)
@@ -48,6 +48,16 @@ class Lexer:
             token = Token(TokenType.SEMICOLON, self._character)
         elif match(r'^<$', self._character):
             token = Token(TokenType.LT, self._character)
+        elif match(r'^/$', self._character):
+            token = Token(TokenType.DIV, self._character)
+        elif match(r'^-$', self._character):
+            token = Token(TokenType.MINUS, self._character)
+        elif match(r'^\*$', self._character): # Se escapa por tener un significado especial en las expresiones regulares
+            token = Token(TokenType.MULT, self._character)
+        elif match(r'^>$', self._character):
+            token = Token(TokenType.GT, self._character)
+        elif match(r'^!$', self._character):
+            token = Token(TokenType.EXC, self._character)
         # Funciones auxiliares, en lugar de generar una expresion regular se generan funciones auxiliares
         elif self._is_letter(self._character): # Ahora si nos encontramos frente a un caracter lo que se quiere es generar una literal, donde se genera una funcion y luego se conoce que tipo de Token es
             literal = self._read_identifier()
@@ -64,9 +74,9 @@ class Lexer:
             token = Token(TokenType.ILLEGAL, self._character)
 
         """
-        Se tiene que escapar especificamente el caracter de suma porque suma significa algo especifico en las expresiones regulares, significa que haga match por lo menos una o mas veces pero aqui no interesa la funcionalidad sino especificamente el caracter, se escapa con la diagonal
+        Se tiene que escapar especificamente el caracter de suma porque suma significa algo especifico en las expresiones regulares, significa que haga match por lo menos una o mas veces pero aqui no interesa la funcionalidad sino especificamente el caracter, se escapa con la diagonal invertida
         """
-        # Escapar: hacer que el caractér sea tomado cómo texto plano en lugar de su significado por defecto en la expreción regular.
+        # Escapar: hacer que el caracter sea tomado cómo texto plano en lugar de su significado por defecto en la expreción regular.
 
         
         # Se necesita correrlo despues de que se genere el token y antes de regresarlo
