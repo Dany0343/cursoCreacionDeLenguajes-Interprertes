@@ -12,20 +12,27 @@ from typing import ( # Se importa Dict tambien
 @unique # Se le añade el decorador unique pora saber que los tokens son unicos, un decorador recibe como parametro una funcion, le añade cosas, la ejecuta y retorna a esta misma función pero ya modificada, por eso se dice que retorna una función diferente
 class TokenType(Enum):
     # Es buena practica ponerlos en orden alfabetico
+    # auto es que no interesa el valor del enum
     ASSIGN = auto()
     COMMA = auto()
+    ELSE = auto()
     EOF = auto()
+    FALSE = auto()
     FUNCTION = auto()
     IDENT = auto()
+    IF = auto()
     ILLEGAL = auto()
     INT = auto()
     LBRACE = auto()
     LET = auto()
     LPAREN = auto()
+    LT = auto()
     PLUS = auto()
     RBRACE = auto()
+    RETURN = auto()
     RPAREN = auto()
     SEMICOLON = auto()
+    TRUE = auto()
 
 
 class Token(NamedTuple):
@@ -41,10 +48,14 @@ class Token(NamedTuple):
 
 # Funcion para leer palabras más complejas y no solo operadores
 def lookup_token_type(literal: str) -> TokenType: # Recibe una literal y regresa un TokenType
-    keywords: Dict[str, TokenType] = { # Guarda los keyword del lenguaje de llaves strings y valores TokenType
+    keywords: Dict[str, TokenType] = { # Guarda los keyword del lenguaje de llaves strings y valores TokenType, se escriben en orden alfabetico
+        'falso': TokenType.FALSE,
         'procedimiento': TokenType.FUNCTION,
+        'regresa': TokenType.RETURN,
+        'si': TokenType.IF,
+        'si_no': TokenType.ELSE,
         'variable': TokenType.LET,
-        
+        'verdadero': TokenType.TRUE,
     } 
 
     return keywords.get(literal, TokenType.IDENT) # Aqui revisa si es una llave de la lista de palabras reservadas que tenemos en el diccionario o si no es un identificador (para nombrar algo y a libre eleccion)
