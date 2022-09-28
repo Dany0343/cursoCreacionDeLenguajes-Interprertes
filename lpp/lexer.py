@@ -29,7 +29,10 @@ class Lexer:
         self._skip_whitespace() # Se ignoraran los espacios en blanco siempre al empezar un nuevo token
 
         if match(r'^=$', self._character):
-            token = Token(TokenType.ASSIGN, self._character)
+            if self._peek_character() == '=':
+                token = self._make_two_character_token(TokenType.EQ)
+            else: 
+                token = Token(TokenType.ASSIGN, self._character)
         elif match(r'^\+$', self._character):  # Se escapa por tener un significado especial en las expresiones regulares
             token = Token(TokenType.PLUS, self._character)
         elif match(r'^$', self._character):
@@ -57,7 +60,10 @@ class Lexer:
         elif match(r'^>$', self._character):
             token = Token(TokenType.GT, self._character)
         elif match(r'^!$', self._character):
-            token = Token(TokenType.EXC, self._character)
+            if self._peek_character() == '=':
+                token = self._make_two_character_token(TokenType.NOT_EQ)
+            else: 
+                token = Token(TokenType.EXC, self._character)
         # Funciones auxiliares, en lugar de generar una expresion regular se generan funciones auxiliares
         elif self._is_letter(self._character): # Ahora si nos encontramos frente a un caracter lo que se quiere es generar una literal, donde se genera una funcion y luego se conoce que tipo de Token es
             literal = self._read_identifier()
@@ -113,6 +119,21 @@ class Lexer:
     def _skip_whitespace(self) -> None:
         while match(r'^\s$', self._character): # \s significa white space
             self._read_character()
+
+
+    def _peek_character(self) -> str: # Funcion para conocer el siguiente caracter que viene y echar un vistazo
+        if self._read_position >= len(self._source):
+            return ''
+
+        return self._source[self._read_position] # Por eso tenemos position y read position, porque se va viendo la posicion en la cual estamos y la siguiente es la que estamos leyendo constantemente
+
+
+    def _make_two_character_token(self, token_type: TokenType) -> Token:
+        prefix = self._character # Se toma el prefijo el cual es el caracter actual
+        self._read_character() # Nos movemos al siguiente
+        suffix = self._character # Lo volvemos a tomar
+
+        return Token(token_type, f'{prefix}{suffix}')
 
 
     def _read_character(self) -> None:
