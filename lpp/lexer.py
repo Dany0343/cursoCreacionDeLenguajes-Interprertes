@@ -128,7 +128,7 @@ class Lexer:
         return self._source[self._read_position] # Por eso tenemos position y read position, porque se va viendo la posicion en la cual estamos y la siguiente es la que estamos leyendo constantemente
 
 
-    def _make_two_character_token(self, token_type: TokenType) -> Token:
+    def _make_two_character_token(self, token_type: TokenType) -> Token: # Esta funcion toma el caracter actual, avanza y toma el siguiente para fusionarlos
         prefix = self._character # Se toma el prefijo el cual es el caracter actual
         self._read_character() # Nos movemos al siguiente
         suffix = self._character # Lo volvemos a tomar
