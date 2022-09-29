@@ -30,6 +30,7 @@ def main() -> None:
                                               
 
 #     ''')
+    print("Bienvenido a Lenguaje de Programación Platzi LPP")
     print("Escribe una oración para comenzar.")
 
     start_repl()

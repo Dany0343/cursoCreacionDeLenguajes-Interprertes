@@ -110,7 +110,7 @@ class Lexer:
     def _read_identifier(self) -> str:
         initial_position = self._position
 
-        while self._is_letter(self._character):
+        while self._is_letter(self._character) or self._is_number(self._character): # Se corrije el bug de que no detecte var_1 como identificador
             self._read_character() # Funcion que se implemento en el pasado, avanza un caracter
 
         return self._source[initial_position:self._position]
