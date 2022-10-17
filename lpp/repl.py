@@ -15,5 +15,5 @@ def start_repl() -> None:   # Aquí no tenemos self como parametro ya que es una
     while (source := input('>> ')) != 'salir()':
         lexer: Lexer = Lexer(source)
 
-        while (token :=  lexer.next_token()) != EOF_TOKEN:
+        while (token := lexer.next_token()) != EOF_TOKEN:
             print(token)
