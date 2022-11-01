@@ -1,4 +1,8 @@
-from abc import ( # abc es abstract base class
+'''
+Las clases abstractas, como su nombre lo indica, son algo abstracto, no representan algo específico y las podemos usar para crear otras clases. No pueden ser instanciadas, por lo que no podemos crear nuevos objetos con ellas.
+También podemos hacer lo mismo con los métodos: si una clase tiene métodos abstractos, entonces nuestra clase deberá ser abstracta.
+'''
+from abc import ( # abc es abstract base class, una clase abstracta es basicamente una receta para posteriores clases que la van a heredar, tienen que tener los mismos métodos 
     ABC,
     abstractmethod,
 )
@@ -33,3 +37,5 @@ class Expression(ASTNode):
 
     def token_literal(self) -> str:
         return self.token.literal
+
+
