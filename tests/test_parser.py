@@ -1,6 +1,9 @@
 from unittest import TestCase
+
+from lpp.ast import Program
 from lpp.lexer import Lexer
 from lpp.parser import Parser
+
 
 class ParserTest(TestCase):
 

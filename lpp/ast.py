@@ -8,7 +8,7 @@ from abc import ( # abc es abstract base class, una clase abstracta es basicamen
 )
 
 from lpp.token import Token
-
+from typing import List
 
 class ASTNode(ABC):
     @abstractmethod # Se utiliza la funcion como decorador para señalar que es un método abstracto
@@ -39,3 +39,19 @@ class Expression(ASTNode):
         return self.token.literal
 
 
+class Program(ASTNode):
+    def __init__(self, statements: List[Statement]) -> None:
+        self.statements = statements
+
+    def token_literal(self) -> str:
+        if len(self.statements) > 0:
+            return self.statements[0].token_literal()
+
+        return ''
+    
+    def __str__(self) -> str: # Como este si se inicializa si se implementa el dunder method, ya que es parte de la clase abstracta
+        out: List[str] = []
+        for statement in self.statements:
+            out.append(str(statement))
+
+        return ''.join(out)
