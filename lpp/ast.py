@@ -8,7 +8,10 @@ from abc import ( # abc es abstract base class, una clase abstracta es basicamen
 )
 
 from lpp.token import Token
-from typing import List
+from typing import (
+    List,
+    Optional,
+)
 
 class ASTNode(ABC):
     @abstractmethod # Se utiliza la funcion como decorador para señalar que es un método abstracto
@@ -19,7 +22,7 @@ class ASTNode(ABC):
     def __str__(self) -> str:
         pass
 
-# Estos 2 nodos de abajo no se van a inicializar jamás, se podría pero no se hará. Ya que solo se van a utilizar como referencias de tipos
+# Estos 2 nodos son los nodos principales, no se van a inicializar jamás, se podría pero no se hará. Ya que solo se van a utilizar como referencias de tipos
 
 class Statement(ASTNode): 
     def __init__(self, token: Token) -> None: # Constructor que recibe un token, no regresa nada y lo unico que hace es inicializar este token en una variable llamada token
@@ -45,13 +48,33 @@ class Program(ASTNode):
 
     def token_literal(self) -> str:
         if len(self.statements) > 0:
-            return self.statements[0].token_literal()
+            return self.statements[0].token_literal() # Para Debugging, llama a la funcion token_literal de la clase Statement
 
-        return ''
+        return '' # Si no hay nada se regresa un string vacío
     
     def __str__(self) -> str: # Como este si se inicializa si se implementa el dunder method, ya que es parte de la clase abstracta
         out: List[str] = []
         for statement in self.statements:
             out.append(str(statement))
 
-        return ''.join(out)
+        return ''.join(out) # Se regresa una concatenacion de todos los statements
+
+
+class Identifier(Expression): # Se pone arriba de LetStatement porque los scripts se leen de arriba hacía abajo
+    def __init__(self, token: Token, value: str) -> None:
+        super().__init__(token)
+        self.value = value
+    
+    def __str__(self) -> str:
+        return self.value
+
+
+class LetStatement(Statement): # Es un nodo de tipo statement
+    # Optional es algo nuevo de typing, por ejemplo nombre puede ser o un identificador o None esa es su sintaxis
+    def __init__(self, token: Token, name: Optional[Identifier] = None, value: Optional[Expression] = None) -> None:
+        super().__init__(token) # Se inicializa la super clase ya que se está extendiendo statement y statement necesita un token para inicializarse
+        self.name = name
+        self.value = value
+
+    def __str__(self) -> str: # token_literal ya lo implementa statement, a menos que se quiera hacer un override a token_literal se puede utilizar el método de statement que estamos heredando al ser una subclase de statement
+        return f'{self.token_literal()} {str(self.name)} = {str(self.value)};'
